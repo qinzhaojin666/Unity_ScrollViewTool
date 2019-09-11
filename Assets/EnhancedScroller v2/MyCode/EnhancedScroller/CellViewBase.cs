@@ -20,6 +20,11 @@ public class CellViewBase : EnhancedScrollerCellView
     public delegate void OnCellViewClick(CellViewBase cellViewBase);
     public OnCellViewClick onCellViewClick;
 
+    [Header("格子模式勾选 拖拽")]
+    public bool isGridModel = false;
+    public List<CellGridBase> lisCellGrid = new List<CellGridBase>();
+
+
     public CellViewBase setIdentifier(string type)
     {
         this.cellIdentifier = type;
@@ -29,18 +34,29 @@ public class CellViewBase : EnhancedScrollerCellView
     public virtual void setData(CellDataBase dataBase)
     {
         this.mDataBase = dataBase;
-        this.RefreshCellView();
+        //this.RefreshCellView();
     }
 
     public virtual void setData(ref List<CellDataBase> lisData, int startingIndex)
     {
         //重写的示例 参照此处
-        //for (var i = 0; i < lisChild.Length; i++)
-        //{
-        //    lisChild[i].SetData(startingIndex + i < lisData.Count ? lisData[startingIndex + i] : null, startingIndex + i);
-        //}
+        for (int i = 0; i < lisCellGrid.Count; i++)
+        {
+            lisCellGrid[i].setData(startingIndex + i < lisData.Count ? lisData[startingIndex + i] : null, startingIndex + i);
+        }
     }
 
+    public override void RefreshCellView()
+    {
+        if (isGridModel)
+        {
+            for (int i = 0; i < lisCellGrid.Count; i++)
+            {
+                if (lisCellGrid[i].active)
+                    lisCellGrid[i].RefreshCellView();
+            }
+        }
+    }
 
     public virtual void OnBtnClick()
     {

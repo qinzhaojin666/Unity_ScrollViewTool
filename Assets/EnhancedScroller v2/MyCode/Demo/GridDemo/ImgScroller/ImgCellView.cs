@@ -12,15 +12,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ImgCellView : CellViewBase
 {
-    public EveryImg[] lisChild;
-
-    public override void setData(ref List<CellDataBase> lisData, int startingIndex)
-    {
-        for (var i = 0; i < lisChild.Length; i++)
-        {
-            lisChild[i].SetData(startingIndex + i < lisData.Count ? lisData[startingIndex + i] : null, startingIndex + i);
-        }
-    }
+    
 
 }
 

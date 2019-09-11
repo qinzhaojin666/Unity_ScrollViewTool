@@ -14,6 +14,7 @@ namespace EnhancedUI.EnhancedScroller
         /// to handle different types of cells in a single list. Each type
         /// of cell should have its own identifier
         /// </summary>
+        [Header("Cell的id 用于区分对象池")]
         public string cellIdentifier;
 
         /// <summary>

@@ -44,12 +44,23 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
         }
     }
 
-    [Header("格子模式勾选 并设置值")]
+    [Header("格子模式勾选")]
     public bool isGridModel = false;
     /// <summary>
     /// 如果是格子模式 该值有用
     /// </summary>
-    public int numberOfCellsPerRow;
+    private int _numberOfCellsPerRow = -1;
+    private int numberOfCellsPerRow
+    {
+        get
+        {
+            if (_numberOfCellsPerRow == -1)
+            {
+                _numberOfCellsPerRow = cellViewPrefab.lisCellGrid.Count;
+            }
+            return _numberOfCellsPerRow;
+        }
+    }
 
     [Space(20)]
     public List<CellDataBase> lisData;
@@ -58,15 +69,20 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
 
     private bool isInit = false;
 
-
-    public virtual void InitCtrl()
+    private void InitCtrl()
     {
         scroller.Delegate = this;
+        scroller.cellViewVisibilityChanged = CellViewVisibilityChanged;
+        isInit = true;
+    }
 
+    /// <summary>
+    /// 提前把Prefab关闭
+    /// </summary>
+    public void StartDisablePrefab()
+    {
         if (cellViewPrefab.gameObject != null)
             cellViewPrefab.mGameObject.SetActive(false);
-
-        isInit = true;
     }
 
     public ScrollerCtrlBase setDataList(List<CellDataBase> _lisData)
@@ -78,17 +94,19 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     /// <summary>
     /// Scroller的启动方法  注意：调用之前先setDataList
     /// </summary>
-    public virtual void ReloadData()
+    public virtual ScrollerCtrlBase ReloadData()
     {
         if (isInit == false)
             InitCtrl();
 
         scroller.ReloadData();
+        return this;
     }
 
-    public virtual void RefershData()
+    public virtual ScrollerCtrlBase RefershData()
     {
         scroller.RefreshActiveCellViews();
+        return this;
     }
 
 
@@ -124,6 +142,14 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
         {
             return Mathf.CeilToInt((float)lisData.Count / (float)numberOfCellsPerRow);
         }
+    }
+
+    public virtual void CellViewVisibilityChanged(EnhancedScrollerCellView cellView)
+    {
+        CellViewBase view = cellView as CellViewBase;
+
+        if (cellView.active)
+            view.RefreshCellView();
     }
 
     /// <summary>

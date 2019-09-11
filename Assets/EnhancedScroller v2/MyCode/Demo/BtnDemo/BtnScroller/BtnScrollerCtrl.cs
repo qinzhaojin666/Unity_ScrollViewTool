@@ -19,14 +19,8 @@ public class BtnScrollerCtrl : ScrollerCtrlBase
 
     private void Start()
     {
-        this.InitCtrl();
+        this.StartDisablePrefab();
         this.SetBtnDataList();
-    }
-
-    public override void InitCtrl()
-    {
-        base.InitCtrl();
-        this.scroller.cellViewVisibilityChanged = this.cellViewVisibilityChanged;
     }
 
     public void SetBtnDataList()
@@ -69,8 +63,10 @@ public class BtnScrollerCtrl : ScrollerCtrlBase
         role.localPosition = Vector3.zero;
     }
 
-    void cellViewVisibilityChanged(EnhancedScrollerCellView cellView)
+    public override void CellViewVisibilityChanged(EnhancedScrollerCellView cellView)
     {
+        base.CellViewVisibilityChanged(cellView);
+
         if (cellView.dataIndex == curShowTuChe)
         {
             role.gameObject.SetActive(cellView.active);

@@ -57,8 +57,8 @@ public class ImgScrollerCtrl : ScrollerCtrlBase
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_7221aa8567a1492b9d06d0f46cb6421c~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_7221aa8567a1492b9d06d0f46cb6421c~mv2.jpg");
 
 
-        this.InitCtrl();
-        this.SetImgDataList();
+        this.StartDisablePrefab();//可提前InitCtrl 把Prefab关闭 可有可无
+        Invoke("SetImgDataList", 1);
     }
 
     public void SetImgDataList()
@@ -70,8 +70,12 @@ public class ImgScrollerCtrl : ScrollerCtrlBase
             lisImgCellData.Add(new ImgCellData() { imgPath = item });
         }
 
-        this.setDataList(lisImgCellData);
-        this.ReloadData();
+        setDataList(lisImgCellData).ReloadData();//启动Scroller
+    }
+
+    public void OnRefershBtnClick()
+    {
+        RefershData();
     }
 
 }
