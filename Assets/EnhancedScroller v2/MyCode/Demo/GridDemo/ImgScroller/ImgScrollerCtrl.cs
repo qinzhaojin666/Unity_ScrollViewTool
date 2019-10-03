@@ -14,7 +14,7 @@ public class ImgScrollerCtrl : ScrollerCtrlBase
 {
     public Action<BtnCellView> OnCellViewClick;
     public List<string> lisImgPath;
-    private void Start()
+    protected override void Start()
     {
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg");
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_7636649a1ff9458aa8e3da3894c21c30~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_7636649a1ff9458aa8e3da3894c21c30~mv2.jpg");
@@ -57,7 +57,7 @@ public class ImgScrollerCtrl : ScrollerCtrlBase
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_7221aa8567a1492b9d06d0f46cb6421c~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_7221aa8567a1492b9d06d0f46cb6421c~mv2.jpg");
 
 
-        this.StartDisablePrefab();//可提前InitCtrl 把Prefab关闭 可有可无
+        base.Start();
         Invoke("SetImgDataList", 1);
     }
 
