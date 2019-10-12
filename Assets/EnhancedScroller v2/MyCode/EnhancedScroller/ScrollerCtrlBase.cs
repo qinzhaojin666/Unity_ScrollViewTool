@@ -59,6 +59,22 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     [Space(20)]
     public List<CellDataBase> lisData;
 
+    #region 数据相关操作
+    public List<CellDataBase> RemoveAtID(int id)
+    {
+        if (id <= lisData.Count - 1)
+        {
+            lisData.RemoveAt(id);
+        }
+
+        return lisData;
+    }
+    #endregion
+
+    protected virtual void Start()
+    {
+        StartDisablePrefab();
+    }
 
 
     private bool isInit = false;

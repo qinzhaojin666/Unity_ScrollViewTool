@@ -17,9 +17,9 @@ public class BtnScrollerCtrl : ScrollerCtrlBase
 
     public Action<BtnCellView> OnCellViewClick;
 
-    private void Start()
+    protected override void Start()
     {
-        this.StartDisablePrefab();
+        base.Start();
         this.SetBtnDataList();
     }
 
