@@ -10,12 +10,10 @@ using System;
 /// 作者：yoyohan
 /// 创建时间：2019-08-17 10:34:11
 /// </summary>
-public class ImgScrollerCtrl : ScrollerCtrlBase
-{
+public class ImgScrollerCtrl : ScrollerCtrlBase {
     public Action<BtnCellView> OnCellViewClick;
     public List<string> lisImgPath;
-    private void Start()
-    {
+    private void Start() {
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg");
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_7636649a1ff9458aa8e3da3894c21c30~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_7636649a1ff9458aa8e3da3894c21c30~mv2.jpg");
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_cebe144a25af4074a4c9c4e117f5151f~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_cebe144a25af4074a4c9c4e117f5151f~mv2.jpg");
@@ -56,26 +54,22 @@ public class ImgScrollerCtrl : ScrollerCtrlBase
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_223f9ee4eb994faba6bdab9ee705c4c5~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_223f9ee4eb994faba6bdab9ee705c4c5~mv2.jpg");
         lisImgPath.Add("https://static.wixstatic.com/media/4a0a97_7221aa8567a1492b9d06d0f46cb6421c~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_7221aa8567a1492b9d06d0f46cb6421c~mv2.jpg");
 
-
-        this.StartDisablePrefab();//可提前InitCtrl 把Prefab关闭 可有可无
+        //可提前InitCtrl 把Prefab关闭 可有可无 
+        StartDisablePrefab();
         Invoke("SetImgDataList", 1);
     }
 
-    public void SetImgDataList()
-    {
+    public void SetImgDataList() {
         List<CellDataBase> lisImgCellData = new List<CellDataBase>();
 
-        foreach (var item in lisImgPath)
-        {
+        foreach(var item in lisImgPath) {
             lisImgCellData.Add(new ImgCellData() { imgPath = item });
         }
 
         setDataList(lisImgCellData).ReloadData();//启动Scroller
     }
 
-    public void OnRefershBtnClick()
-    {
+    public void OnRefershBtnClick() {
         RefershData();
     }
-
 }

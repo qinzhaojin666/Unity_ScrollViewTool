@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,10 +25,8 @@ public class NetImageData
 
 
     private Texture2D _texture2D_GridScale;
-    public Texture2D texture2D_GridScale
-    {
-        get
-        {
+    public Texture2D texture2D_GridScale {
+        get {
             if (_texture2D_GridScale == null)
             {
                 _texture2D_GridScale = CropScale.ScaleTexture(texture2D, 202, 147);
@@ -74,17 +73,24 @@ public class NetImageRequestObj
     /// 0原生大小,1GridScale大小 X202 Y147
     /// </summary>
     public int useScaleId = 0;
-
+    /// <summary>
+    /// 判断同一个Path 不为同一个path就不设置了 解决网络延迟和重复利用格子造成图片设置两次
+    /// </summary>
+    public Func<bool> judgePath;
     public IESetImageRequestObj ieSetImgReqObj;
 
     public void SetComponentSprite()
     {
         if (this.imageComponent != null)
         {
+            if (judgePath != null && judgePath() == false)
+                return;
             this.imageComponent.sprite = netImageData.getSprite();
         }
         if (this.rawImageComponent != null)
         {
+            if (judgePath != null && judgePath() == false)
+                return;
             this.rawImageComponent.texture = netImageData.texture2D;
         }
     }
@@ -93,20 +99,24 @@ public class NetImageRequestObj
     {
         if (this.imageComponent != null)
         {
+            if (judgePath != null && judgePath() == false)
+                return;
             this.imageComponent.sprite = netImageData.getSprite_GridScale();
         }
         if (this.rawImageComponent != null)
         {
+            if (judgePath != null && judgePath() == false)
+                return;
             this.rawImageComponent.texture = netImageData.texture2D_GridScale;
         }
     }
-
 
     public void Copy(NetImageRequestObj netImageRequestObj)
     {
         this.imageComponent = netImageRequestObj.imageComponent;
         this.rawImageComponent = netImageRequestObj.rawImageComponent;
         this.useScaleId = netImageRequestObj.useScaleId;
+        this.judgePath = netImageRequestObj.judgePath;
         this.netImageData = new NetImageData();
         this.netImageData.Copy(netImageRequestObj.netImageData);
     }

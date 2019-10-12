@@ -24,10 +24,8 @@ public class NetImageManager
     }
 
     private static NetImageMonoScript _netImageMono;
-    private static NetImageMonoScript netImageMono
-    {
-        get
-        {
+    private static NetImageMonoScript netImageMono {
+        get {
             if (_netImageMono == null)
                 _netImageMono = new GameObject("NetImageManager").AddComponent<NetImageMonoScript>();
             GameObject.DontDestroyOnLoad(_netImageMono.gameObject);
@@ -87,9 +85,15 @@ public class NetImageManager
     /// <summary>
     /// 开始获取一个网络图片 并自动设置图片 自动设置加载图片队列reqid
     /// </summary>
-    public NetImageRequestObj StartGetOne(string url, RawImage rawImageComponent1, int useScaleID = 0)
+    public NetImageRequestObj StartGetOne(string url, RawImage rawImageComponent1, int useScaleID = 0, Func<bool> judgePath = null)
     {
-        NetImageRequestObj reqObj = new NetImageRequestObj() { rawImageComponent = rawImageComponent1, netImageData = new NetImageData() { url = url }, useScaleId = useScaleID };
+        NetImageRequestObj reqObj = new NetImageRequestObj()
+        {
+            rawImageComponent = rawImageComponent1,
+            netImageData = new NetImageData() { url = url },
+            useScaleId = useScaleID,
+            judgePath = judgePath
+        };
         StartGetOne(reqObj);
         return reqObj;
     }
@@ -97,9 +101,15 @@ public class NetImageManager
     /// <summary>
     /// 开始获取一个网络图片 并自动设置图片 自动分配加载图片队列reqid
     /// </summary>
-    public NetImageRequestObj StartGetOne(string url, Image imageComponent1, int useScaleID = 0)
+    public NetImageRequestObj StartGetOne(string url, Image imageComponent1, int useScaleID = 0, Func<bool> judgePath = null)
     {
-        NetImageRequestObj reqObj = new NetImageRequestObj() { imageComponent = imageComponent1, netImageData = new NetImageData() { url = url }, useScaleId = useScaleID };
+        NetImageRequestObj reqObj = new NetImageRequestObj()
+        {
+            imageComponent = imageComponent1,
+            netImageData = new NetImageData() { url = url },
+            useScaleId = useScaleID,
+            judgePath = judgePath
+        };
         StartGetOne(reqObj);
         return reqObj;
     }
@@ -124,7 +134,7 @@ public class NetImageManager
     {
         NetImageRequestObj netImageRequestObj2 = new NetImageRequestObj();
         IESetImageRequestObj reqObj = new IESetImageRequestObj();
-    
+
         if (netImageRequestObj.useScaleId == 0)
         {
             netImageRequestObj.netImageData.getSprite();

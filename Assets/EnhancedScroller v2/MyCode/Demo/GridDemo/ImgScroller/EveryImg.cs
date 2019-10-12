@@ -21,7 +21,20 @@ public class EveryImg : CellGridBase
         requestObj = null;
         string path = mData.toOtherType<ImgCellData>().imgPath;
         titleImage.texture = defaultTexture;
-        requestObj = NetImageManager.GetInstance().StartGetOne(path, titleImage, 1);
+        requestObj = NetImageManager.GetInstance().StartGetOne(path, titleImage, 1, judgePath);
+    }
+
+    private bool judgePath()
+    {
+        if (requestObj != null && mData != null)
+        {
+            Debug.Log(requestObj.netImageData.url == mData.toOtherType<ImgCellData>().imgPath);
+            return requestObj.netImageData.url == mData.toOtherType<ImgCellData>().imgPath;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void OnDisable()

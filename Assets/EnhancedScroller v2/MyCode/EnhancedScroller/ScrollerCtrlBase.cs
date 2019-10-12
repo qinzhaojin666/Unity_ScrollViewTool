@@ -15,10 +15,8 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     public CellViewBase cellViewPrefab;
 
     private float _cellSize = -1;
-    public float cellSize
-    {
-        get
-        {
+    public float cellSize {
+        get {
             if (_cellSize == -1)
             {
                 RectTransform rect = cellViewPrefab.GetComponent<RectTransform>();
@@ -32,10 +30,8 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     /// <summary>
     /// 一页包含几个格子 用于翻页
     /// </summary>
-    public int pageCount
-    {
-        get
-        {
+    public int pageCount {
+        get {
             if (_pageCount == -1)
             {
                 _pageCount = scroller.scrollDirection == EnhancedScroller.ScrollDirectionEnum.Vertical ? (int)scroller.ScrollRectSize / (int)cellSize : (int)scroller.ScrollRectSize / (int)cellSize;
@@ -50,10 +46,8 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     /// 如果是格子模式 该值有用
     /// </summary>
     private int _numberOfCellsPerRow = -1;
-    private int numberOfCellsPerRow
-    {
-        get
-        {
+    private int numberOfCellsPerRow {
+        get {
             if (_numberOfCellsPerRow == -1)
             {
                 _numberOfCellsPerRow = cellViewPrefab.lisCellGrid.Count;
