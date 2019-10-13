@@ -28,7 +28,7 @@ public class EveryImg : CellGridBase
     {
         if (requestObj != null && mData != null)
         {
-            Debug.Log(requestObj.netImageData.url == mData.toOtherType<ImgCellData>().imgPath);
+            //Debug.Log(requestObj.netImageData.url == mData.toOtherType<ImgCellData>().imgPath);
             return requestObj.netImageData.url == mData.toOtherType<ImgCellData>().imgPath;
         }
         else
@@ -39,9 +39,18 @@ public class EveryImg : CellGridBase
 
     public void OnDisable()
     {
-        if (requestObj != null && requestObj.ieSetImgReqObj != null)
+        //Debug.LogError("OnDisable------"+ requestObj);
+        if (requestObj != null)
         {
-            IESetImageMgr.getInstance().RemoveImageInQueue("everyAsset", requestObj.ieSetImgReqObj);
+            if (requestObj.netImageProcess != null)
+            {
+                Debug.LogError("OnDisable------Abort");
+                requestObj.netImageProcess.Abort();
+            }
+            if (requestObj.ieSetImgReqObj != null)
+            {
+                IESetImageMgr.getInstance().RemoveImageInQueue("everyAsset", requestObj.ieSetImgReqObj);
+            }
         }
     }
 

@@ -53,12 +53,12 @@ public class NetImageManager
         }
         else
         {
-            Debug.LogError("已请求过该url，重复添加NetImageData！url：" + netImageData.url);
+            //Debug.LogError("已请求过该url，重复添加NetImageData！url：" + netImageData.url);
             netImageData = null;
         }
     }
 
-    private int maxRequestCount = 2;//设置同时请求网络图片的最大个数
+    private int maxRequestCount = 10;//设置同时请求网络图片的最大个数
     private int maxStoreImageDataCount = 66;//存储的最多网络请求图片历史数目 超出依次清理
     private List<NetImageProcess> lisProcess = new List<NetImageProcess>();//存放处理器
     private Queue<NetImageRequestObj> queue = new Queue<NetImageRequestObj>();//存放请求
@@ -87,8 +87,7 @@ public class NetImageManager
     /// </summary>
     public NetImageRequestObj StartGetOne(string url, RawImage rawImageComponent1, int useScaleID = 0, Func<bool> judgePath = null)
     {
-        NetImageRequestObj reqObj = new NetImageRequestObj()
-        {
+        NetImageRequestObj reqObj = new NetImageRequestObj() {
             rawImageComponent = rawImageComponent1,
             netImageData = new NetImageData() { url = url },
             useScaleId = useScaleID,
@@ -103,8 +102,7 @@ public class NetImageManager
     /// </summary>
     public NetImageRequestObj StartGetOne(string url, Image imageComponent1, int useScaleID = 0, Func<bool> judgePath = null)
     {
-        NetImageRequestObj reqObj = new NetImageRequestObj()
-        {
+        NetImageRequestObj reqObj = new NetImageRequestObj() {
             imageComponent = imageComponent1,
             netImageData = new NetImageData() { url = url },
             useScaleId = useScaleID,

@@ -77,6 +77,7 @@ public class NetImageRequestObj
     /// 判断同一个Path 不为同一个path就不设置了 解决网络延迟和重复利用格子造成图片设置两次
     /// </summary>
     public Func<bool> judgePath;
+    public NetImageProcess netImageProcess;
     public IESetImageRequestObj ieSetImgReqObj;
 
     public void SetComponentSprite()
@@ -99,14 +100,28 @@ public class NetImageRequestObj
     {
         if (this.imageComponent != null)
         {
+
             if (judgePath != null && judgePath() == false)
                 return;
             this.imageComponent.sprite = netImageData.getSprite_GridScale();
         }
         if (this.rawImageComponent != null)
         {
-            if (judgePath != null && judgePath() == false)
+
+
+            if (rawImageComponent.GetComponent<EveryImg>().mData == null)
+            {
+                Debug.Log("为空返回");
                 return;
+            }
+            else if (rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath != netImageData.url)
+            {
+                Debug.Log((rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath == netImageData.url) + "返回");
+                return;
+            }
+
+            //if (judgePath != null && judgePath() == false)
+            //    return;
             this.rawImageComponent.texture = netImageData.texture2D_GridScale;
         }
     }

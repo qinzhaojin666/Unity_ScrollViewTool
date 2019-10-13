@@ -13,7 +13,8 @@ public class NetImageProcess
 {
     private bool isProcess = false;
     private NetImageMonoScript netImageMono;
-
+    private WWW www;
+    private NetImageRequestObj netImageRequestObj;
 
     #region 定义的私有变量
     /// <summary>
@@ -34,6 +35,8 @@ public class NetImageProcess
     public void StartLoadImage(NetImageRequestObj netImageRequestObj)
     {
         isProcess = true;
+        netImageRequestObj.netImageProcess = this;
+        this.netImageRequestObj = netImageRequestObj;
         netImageMono.StartCoroutine(LoadImage(netImageRequestObj));
     }
 
@@ -41,8 +44,7 @@ public class NetImageProcess
     {
         yield return this.HttpGet(netImageRequestObj, OnLoadNetImageSucceed);
 
-        isProcess = false;
-        NetImageManager.GetInstance().ProcessNextOne();
+        ProcessNextOne();
     }
 
     private IEnumerator HttpGet(NetImageRequestObj netImageRequestObj, Action<WWW, NetImageRequestObj> callbackSucceed)
@@ -51,15 +53,21 @@ public class NetImageProcess
         int count = 0;
         do
         {
-            WWW www = new WWW(netImageRequestObj.netImageData.url);
+            www = new WWW(netImageRequestObj.netImageData.url);
             DateTime date1 = DateTime.Now;
             while ((DateTime.Now - date1).TotalSeconds <= 10)
             {
                 yield return new WaitForSeconds(0.1f);
 
+                if (www==null)
+                {
+                    count = 2;
+                    break;
+                }
+
                 if (www.isDone)
                 {
-                    Debug.Log("获取网络图片成功!    " + netImageRequestObj.netImageData.url);
+                    //Debug.Log("获取网络图片成功!    " + netImageRequestObj.netImageData.url);
 
                     if (www.error == null && callbackSucceed != null)
                         callbackSucceed(www, netImageRequestObj);
@@ -79,6 +87,21 @@ public class NetImageProcess
         } while (isGetData == false && count < 2);
     }
 
+    public void Abort()
+    {
+        if (www != null)
+        {
+            www.Dispose();
+            ProcessNextOne();
+        }
+    }
+
+    private void ProcessNextOne()
+    {
+        isProcess = false;
+        netImageRequestObj.netImageProcess = null;
+        NetImageManager.GetInstance().ProcessNextOne();
+    }
 
     private void OnLoadNetImageSucceed(WWW www, NetImageRequestObj netImageRequestObj)
     {
