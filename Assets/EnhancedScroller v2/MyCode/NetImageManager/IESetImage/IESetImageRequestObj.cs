@@ -14,5 +14,11 @@ public class IESetImageRequestObj
     public int reqId;
     public Action action;
     public ProcessType setImageProcessType = ProcessType.None;
+
+    public void Abort(string id)
+    {
+        setImageProcessType = ProcessType.Abort;
+        IESetImageMgr.getInstance().RemoveImageInQueue(id, this);
+    }
 }
 

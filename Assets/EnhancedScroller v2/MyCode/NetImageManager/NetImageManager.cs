@@ -10,15 +10,15 @@ using UnityEngine.UI;
 /// 作者：yoyohan
 /// 创建时间：2019-05-17 09:49:24
 /// </summary>
-public class NetImageManager
+public class NetImageMgr
 {
-    private static NetImageManager _instance;
+    private static NetImageMgr _instance;
 
-    public static NetImageManager GetInstance()
+    public static NetImageMgr getInstance()
     {
         if (_instance == null)
         {
-            _instance = new NetImageManager();
+            _instance = new NetImageMgr();
         }
         return _instance;
     }
@@ -58,16 +58,17 @@ public class NetImageManager
         }
     }
 
-    private int maxRequestCount = 10;//设置同时请求网络图片的最大个数
+    private int maxRequestCount = 3;//设置同时请求网络图片的最大个数
     private int maxStoreImageDataCount = 66;//存储的最多网络请求图片历史数目 超出依次清理
+    private int curReqId = 0;//当前使用的索引
     private List<NetImageProcess> lisProcess = new List<NetImageProcess>();//存放处理器
-    private Queue<NetImageRequestObj> queue = new Queue<NetImageRequestObj>();//存放请求
+    private List<NetImageRequestObj> lisObj = new List<NetImageRequestObj>();//存放请求
 
 
     /// <summary>
     /// 可选，默认为2 设置同时请求加载网络图片的最大个数
     /// </summary>
-    public NetImageManager SetMaxRequestCount(int maxCount)
+    public NetImageMgr SetMaxRequestCount(int maxCount)
     {
         this.maxRequestCount = maxCount;
         return this;
@@ -76,11 +77,22 @@ public class NetImageManager
     /// <summary>
     /// 可选，默认为66 设置同时请求加载网络图片的最大个数
     /// </summary>
-    public NetImageManager SetMaxStoreImageDataCount(int maxCount)
+    public NetImageMgr SetMaxStoreImageDataCount(int maxCount)
     {
         this.maxStoreImageDataCount = maxCount;
         return this;
     }
+
+
+    private int GetOneReqId()
+    {
+        if (curReqId >= 10000)
+            curReqId = 0;
+
+        return curReqId++;
+    }
+
+
 
     /// <summary>
     /// 开始获取一个网络图片 并自动设置图片 自动设置加载图片队列reqid
@@ -88,6 +100,7 @@ public class NetImageManager
     public NetImageRequestObj StartGetOne(string url, RawImage rawImageComponent1, int useScaleID = 0)
     {
         NetImageRequestObj reqObj = new NetImageRequestObj() {
+            reqId = GetOneReqId(),
             rawImageComponent = rawImageComponent1,
             netImageData = new NetImageData() { url = url },
             useScaleId = useScaleID,
@@ -103,6 +116,7 @@ public class NetImageManager
     public NetImageRequestObj StartGetOne(string url, Image imageComponent1, int useScaleID = 0)
     {
         NetImageRequestObj reqObj = new NetImageRequestObj() {
+            reqId = GetOneReqId(),
             imageComponent = imageComponent1,
             netImageData = new NetImageData() { url = url },
             useScaleId = useScaleID,
@@ -117,17 +131,42 @@ public class NetImageManager
         if (dicNetImage.ContainsKey(netImageRequestObj.netImageData.url))
         {
             netImageRequestObj.netImageData = dicNetImage[netImageRequestObj.netImageData.url];
-            //Debug.Log("=========================1" + netImageRequestObj.netImageData.texture2D.width);
             netImageRequestObj.netImageProcessType = ProcessType.Processed;
             ProcessSetImage(netImageRequestObj);
         }
         else
         {
-            queue.Enqueue(netImageRequestObj);
+            lisObj.Add(netImageRequestObj);
             ProcessNextOne();
         }
     }
 
+    public void AbortObj(NetImageRequestObj reqObj)
+    {
+        if (reqObj == null)
+            return;
+
+        int index = GetObjIndex(reqObj);
+        if (index >= 0)
+        {
+            lisObj[index].netImageProcessType = ProcessType.NoProcess;
+            lisObj.RemoveAt(index);
+            Debug.Log("Abort--------------------" + reqObj.reqId);
+        }
+    }
+
+
+    public int GetObjIndex(NetImageRequestObj reqObj)
+    {
+        for (int i = 0; i < lisObj.Count; i++)
+        {
+            if (lisObj[i].reqId == reqObj.reqId)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public void ProcessSetImage(NetImageRequestObj netImageRequestObj)
     {
@@ -152,8 +191,6 @@ public class NetImageManager
         netImageRequestObj.ieSetImgReqObj = reqObj;
         netImageRequestObj2.ieSetImgReqObj = reqObj;
 
-        //if (netImageRequestObj.netImageData.url== "https://static.wixstatic.com/media/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg")
-        //    Debug.Log("AddSetImageInQueue "+ reqObj+"  processType "+ netImageRequestObj2.netImageProcessType);
         IESetImageMgr.getInstance().AddSetImageInQueue("everyAsset", reqObj);
     }
 
@@ -185,14 +222,15 @@ public class NetImageManager
     /// </summary>
     public void ProcessNextOne()
     {
-        if (queue.Count <= 0)
+        if (lisObj.Count <= 0)
             return;
 
         NetImageProcess process = this.GetProcess();
         if (process == null)
             return;
 
-        process.StartLoadImage(queue.Dequeue());
+        process.StartLoadImage(lisObj[0]);
+        lisObj.RemoveAt(0);
     }
 
 

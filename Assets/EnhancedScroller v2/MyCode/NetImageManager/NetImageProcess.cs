@@ -42,7 +42,7 @@ public class NetImageProcess
         yield return this.HttpGet(netImageRequestObj, OnLoadNetImageSucceed);
 
         isProcess = false;
-        NetImageManager.GetInstance().ProcessNextOne();
+        NetImageMgr.getInstance().ProcessNextOne();
     }
 
     private IEnumerator HttpGet(NetImageRequestObj netImageRequestObj, Action<WWW, NetImageRequestObj> callbackSucceed)
@@ -59,7 +59,7 @@ public class NetImageProcess
 
                 if (www.isDone)
                 {
-                    //Debug.Log("获取网络图片成功!    " + netImageRequestObj.netImageData.url);
+                    Debug.Log("获取网络图片成功!    " + netImageRequestObj.netImageData.url);
                     if (string.IsNullOrEmpty(www.error) && callbackSucceed != null)
                         callbackSucceed(www, netImageRequestObj);
 
@@ -80,17 +80,15 @@ public class NetImageProcess
 
     private void OnLoadNetImageSucceed(WWW www, NetImageRequestObj netImageRequestObj)
     {
-        if (netImageRequestObj.netImageProcessType == ProcessType.Abort)
-        {
-            return;
-        }
-
         Texture2D tex = www.texture;
         netImageRequestObj.netImageData.texture2D = tex;
-        netImageRequestObj.netImageProcessType = ProcessType.Processed;
-        NetImageManager.GetInstance().ProcessSetImage(netImageRequestObj);
-        //netImageRequestObj.netImageData.texture2D = null;
-        NetImageManager.GetInstance().AddNetImageData(netImageRequestObj.netImageData);
+        NetImageMgr.getInstance().AddNetImageData(netImageRequestObj.netImageData);
+
+        if (netImageRequestObj.netImageProcessType != ProcessType.Abort)
+        {
+            netImageRequestObj.netImageProcessType = ProcessType.Processed;
+            NetImageMgr.getInstance().ProcessSetImage(netImageRequestObj);
+        }
     }
 
 

@@ -18,26 +18,17 @@ public class EveryImg : CellGridBase
 
     public override void RefreshCellView()
     {
-        if (requestObj != null)
+        //Debug.LogError("--------------------------------------");
+        if (requestObj!=null)
         {
-            if (requestObj.netImageProcessType != ProcessType.Processed)
-            {
-                requestObj.netImageProcessType = ProcessType.Abort;
-            }
-
-            if (requestObj.ieSetImgReqObj != null && requestObj.ieSetImgReqObj.setImageProcessType != ProcessType.Processed)
-            {
-                requestObj.ieSetImgReqObj.setImageProcessType = ProcessType.Abort;
-                IESetImageMgr.getInstance().RemoveImageInQueue("everyAsset", requestObj.ieSetImgReqObj);
-            }
+            requestObj.Abort();
         }
-
 
         requestObj = null;
         string path = mData.toOtherType<ImgCellData>().imgPath;
         titleImage.texture = defaultTexture;
         
-        requestObj = NetImageManager.GetInstance().StartGetOne(path, titleImage, 1);
+        requestObj = NetImageMgr.getInstance().StartGetOne(path, titleImage, 1);
     }
 
 

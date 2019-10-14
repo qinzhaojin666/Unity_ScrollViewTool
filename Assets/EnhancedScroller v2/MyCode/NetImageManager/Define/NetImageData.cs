@@ -66,6 +66,7 @@ public class NetImageData
 
 public class NetImageRequestObj
 {
+    public int reqId;
     public NetImageData netImageData;
     public Image imageComponent;
     public RawImage rawImageComponent;
@@ -73,59 +74,54 @@ public class NetImageRequestObj
     /// 0原生大小,1GridScale大小 X202 Y147
     /// </summary>
     public int useScaleId = 0;
-    /// <summary>
-    /// 判断同一个Path 不为同一个path就不设置了 解决网络延迟和重复利用格子造成图片设置两次
-    /// </summary>
-    public Func<bool> judgePath;
-    public ProcessType netImageProcessType = ProcessType.None;
+    public ProcessType _netImageProcessType = ProcessType.None;
+    public ProcessType netImageProcessType {
+        get {
+            return _netImageProcessType;
+        }
+        set {
+            if (value== ProcessType.Abort)
+            {
+                NetImageMgr.getInstance().AbortObj(this);
+            }
+            _netImageProcessType = value;
+        }
+    }
+
     public IESetImageRequestObj ieSetImgReqObj;
 
     public void SetComponentSprite()
     {
+        if (netImageProcessType != ProcessType.Processed || ieSetImgReqObj.setImageProcessType != ProcessType.Processed)
+        {
+            Debug.Log("Processed有问题 返回 " + netImageProcessType + " " + ieSetImgReqObj.setImageProcessType);
+            return;
+        }
+
         if (this.imageComponent != null)
         {
-            if (judgePath != null && judgePath() == false)
-                return;
             this.imageComponent.sprite = netImageData.getSprite();
         }
         if (this.rawImageComponent != null)
         {
-            if (judgePath != null && judgePath() == false)
-                return;
             this.rawImageComponent.texture = netImageData.texture2D;
         }
     }
 
     public void SetComponentSprite_GridSprite()
     {
+        if (netImageProcessType != ProcessType.Processed || ieSetImgReqObj.setImageProcessType != ProcessType.Processed)
+        {
+            Debug.Log("Processed有问题 返回 " + netImageProcessType + " " + ieSetImgReqObj.setImageProcessType);
+            return;
+        }
+
         if (this.imageComponent != null)
         {
-
-            if (judgePath != null && judgePath() == false)
-                return;
             this.imageComponent.sprite = netImageData.getSprite_GridScale();
         }
         if (this.rawImageComponent != null)
         {
-            //if (rawImageComponent.GetComponent<EveryImg>().mData == null)
-            //{
-            //    Debug.Log("为空返回");
-            //    return;
-            //}
-            //else if (rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath != netImageData.url)
-            //{
-            //    Debug.Log((rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath == netImageData.url) + "返回" + "  judgePath():" + judgePath());
-            //    return;
-            //}
-
-            if (netImageProcessType != ProcessType.Processed || ieSetImgReqObj.setImageProcessType != ProcessType.Processed)
-            {
-                Debug.Log("Processed有问题 返回 " + netImageProcessType + " " + ieSetImgReqObj.setImageProcessType);
-                return;
-            }
-
-            //if (judgePath != null && judgePath() == false)
-            //    return;
             this.rawImageComponent.texture = netImageData.texture2D_GridScale;
         }
     }
@@ -138,5 +134,20 @@ public class NetImageRequestObj
         this.netImageData = new NetImageData();
         this.netImageData.Copy(netImageRequestObj.netImageData);
         this.netImageProcessType = netImageRequestObj.netImageProcessType;
+    }
+
+    public void Abort()
+    {
+        if (this.netImageProcessType != ProcessType.Processed)
+        {
+            netImageProcessType = ProcessType.Abort;
+            //Debug.Log("Abort-netImage");
+        }
+
+        if (ieSetImgReqObj != null && ieSetImgReqObj.setImageProcessType != ProcessType.Processed)
+        {
+            ieSetImgReqObj.Abort("everyAsset");
+            //Debug.Log("Abort-ieSetImg");
+        }
     }
 }
