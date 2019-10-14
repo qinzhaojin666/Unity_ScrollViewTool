@@ -85,13 +85,13 @@ public class NetImageManager
     /// <summary>
     /// 开始获取一个网络图片 并自动设置图片 自动设置加载图片队列reqid
     /// </summary>
-    public NetImageRequestObj StartGetOne(string url, RawImage rawImageComponent1, int useScaleID = 0, Func<bool> judgePath = null)
+    public NetImageRequestObj StartGetOne(string url, RawImage rawImageComponent1, int useScaleID = 0)
     {
         NetImageRequestObj reqObj = new NetImageRequestObj() {
             rawImageComponent = rawImageComponent1,
             netImageData = new NetImageData() { url = url },
             useScaleId = useScaleID,
-            judgePath = judgePath
+            netImageProcessType = ProcessType.NoProcess
         };
         StartGetOne(reqObj);
         return reqObj;
@@ -100,13 +100,13 @@ public class NetImageManager
     /// <summary>
     /// 开始获取一个网络图片 并自动设置图片 自动分配加载图片队列reqid
     /// </summary>
-    public NetImageRequestObj StartGetOne(string url, Image imageComponent1, int useScaleID = 0, Func<bool> judgePath = null)
+    public NetImageRequestObj StartGetOne(string url, Image imageComponent1, int useScaleID = 0)
     {
         NetImageRequestObj reqObj = new NetImageRequestObj() {
             imageComponent = imageComponent1,
             netImageData = new NetImageData() { url = url },
             useScaleId = useScaleID,
-            judgePath = judgePath
+            netImageProcessType = ProcessType.NoProcess
         };
         StartGetOne(reqObj);
         return reqObj;
@@ -118,6 +118,7 @@ public class NetImageManager
         {
             netImageRequestObj.netImageData = dicNetImage[netImageRequestObj.netImageData.url];
             //Debug.Log("=========================1" + netImageRequestObj.netImageData.texture2D.width);
+            netImageRequestObj.netImageProcessType = ProcessType.Processed;
             ProcessSetImage(netImageRequestObj);
         }
         else
@@ -149,6 +150,10 @@ public class NetImageManager
         }
 
         netImageRequestObj.ieSetImgReqObj = reqObj;
+        netImageRequestObj2.ieSetImgReqObj = reqObj;
+
+        //if (netImageRequestObj.netImageData.url== "https://static.wixstatic.com/media/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg/v1/fill/w_200,h_200,al_c,q_80/4a0a97_1f69f9ec04654e3aa23fd1546e907c5d~mv2.jpg")
+        //    Debug.Log("AddSetImageInQueue "+ reqObj+"  processType "+ netImageRequestObj2.netImageProcessType);
         IESetImageMgr.getInstance().AddSetImageInQueue("everyAsset", reqObj);
     }
 

@@ -77,7 +77,7 @@ public class NetImageRequestObj
     /// 判断同一个Path 不为同一个path就不设置了 解决网络延迟和重复利用格子造成图片设置两次
     /// </summary>
     public Func<bool> judgePath;
-    public NetImageProcess netImageProcess;
+    public ProcessType netImageProcessType = ProcessType.None;
     public IESetImageRequestObj ieSetImgReqObj;
 
     public void SetComponentSprite()
@@ -107,16 +107,20 @@ public class NetImageRequestObj
         }
         if (this.rawImageComponent != null)
         {
+            //if (rawImageComponent.GetComponent<EveryImg>().mData == null)
+            //{
+            //    Debug.Log("为空返回");
+            //    return;
+            //}
+            //else if (rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath != netImageData.url)
+            //{
+            //    Debug.Log((rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath == netImageData.url) + "返回" + "  judgePath():" + judgePath());
+            //    return;
+            //}
 
-
-            if (rawImageComponent.GetComponent<EveryImg>().mData == null)
+            if (netImageProcessType != ProcessType.Processed || ieSetImgReqObj.setImageProcessType != ProcessType.Processed)
             {
-                Debug.Log("为空返回");
-                return;
-            }
-            else if (rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath != netImageData.url)
-            {
-                Debug.Log((rawImageComponent.GetComponent<EveryImg>().mData.toOtherType<ImgCellData>().imgPath == netImageData.url) + "返回");
+                Debug.Log("Processed有问题 返回 " + netImageProcessType + " " + ieSetImgReqObj.setImageProcessType);
                 return;
             }
 
@@ -131,8 +135,8 @@ public class NetImageRequestObj
         this.imageComponent = netImageRequestObj.imageComponent;
         this.rawImageComponent = netImageRequestObj.rawImageComponent;
         this.useScaleId = netImageRequestObj.useScaleId;
-        this.judgePath = netImageRequestObj.judgePath;
         this.netImageData = new NetImageData();
         this.netImageData.Copy(netImageRequestObj.netImageData);
+        this.netImageProcessType = netImageRequestObj.netImageProcessType;
     }
 }

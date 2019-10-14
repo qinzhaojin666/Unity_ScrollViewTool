@@ -18,41 +18,29 @@ public class EveryImg : CellGridBase
 
     public override void RefreshCellView()
     {
-        requestObj = null;
-        string path = mData.toOtherType<ImgCellData>().imgPath;
-        titleImage.texture = defaultTexture;
-        requestObj = NetImageManager.GetInstance().StartGetOne(path, titleImage, 1, judgePath);
-    }
-
-    private bool judgePath()
-    {
-        if (requestObj != null && mData != null)
-        {
-            //Debug.Log(requestObj.netImageData.url == mData.toOtherType<ImgCellData>().imgPath);
-            return requestObj.netImageData.url == mData.toOtherType<ImgCellData>().imgPath;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public void OnDisable()
-    {
-        //Debug.LogError("OnDisable------"+ requestObj);
         if (requestObj != null)
         {
-            if (requestObj.netImageProcess != null)
+            if (requestObj.netImageProcessType != ProcessType.Processed)
             {
-                Debug.LogError("OnDisable------Abort");
-                requestObj.netImageProcess.Abort();
+                requestObj.netImageProcessType = ProcessType.Abort;
             }
-            if (requestObj.ieSetImgReqObj != null)
+
+            if (requestObj.ieSetImgReqObj != null && requestObj.ieSetImgReqObj.setImageProcessType != ProcessType.Processed)
             {
+                requestObj.ieSetImgReqObj.setImageProcessType = ProcessType.Abort;
                 IESetImageMgr.getInstance().RemoveImageInQueue("everyAsset", requestObj.ieSetImgReqObj);
             }
         }
+
+
+        requestObj = null;
+        string path = mData.toOtherType<ImgCellData>().imgPath;
+        titleImage.texture = defaultTexture;
+        
+        requestObj = NetImageManager.GetInstance().StartGetOne(path, titleImage, 1);
     }
+
+
 
 }
 

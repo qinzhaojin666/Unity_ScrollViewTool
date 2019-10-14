@@ -60,7 +60,7 @@ public class IESetImageMgr
             process.StartProcess(getMono());
         }
 
-        reqObj.ieRequestObjType = IERequestObjType.NoProcess;
+        reqObj.setImageProcessType = ProcessType.NoProcess;
         reqObj.reqId = this.GetOneReqId();
 
         process.EnQueue(reqObj);

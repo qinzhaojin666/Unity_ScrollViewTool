@@ -39,7 +39,7 @@ public class IESetImageProcess
         {
             if (lisReqObj[i].reqId == reqObj.reqId)
             {
-                lisReqObj[i].ieRequestObjType = IERequestObjType.None;
+                lisReqObj[i].setImageProcessType = ProcessType.NoProcess;
                 lisReqObj.RemoveAt(i);
                 Debug.Log("DeQueue--------------------" + reqObj.reqId);
                 break;
@@ -59,10 +59,10 @@ public class IESetImageProcess
             }
 
             IESetImageRequestObj reqObj = lisReqObj[0];
-            if (reqObj != null && reqObj.action != null && reqObj.ieRequestObjType == IERequestObjType.NoProcess)
+            if (reqObj != null && reqObj.action != null && reqObj.setImageProcessType == ProcessType.NoProcess)
             {
+                reqObj.setImageProcessType = ProcessType.Processed;
                 reqObj.action();
-                reqObj.ieRequestObjType = IERequestObjType.Processed;
             }
             reqObj = null;
             lisReqObj.RemoveAt(0);

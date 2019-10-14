@@ -13,11 +13,6 @@ public class IESetImageRequestObj
 {
     public int reqId;
     public Action action;
-    public IERequestObjType ieRequestObjType = IERequestObjType.None;
+    public ProcessType setImageProcessType = ProcessType.None;
 }
-public enum IERequestObjType
-{
-    None,
-    NoProcess,
-    Processed
-}
+
