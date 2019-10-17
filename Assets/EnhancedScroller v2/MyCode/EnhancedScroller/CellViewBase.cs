@@ -19,6 +19,7 @@ public class CellViewBase : EnhancedScrollerCellView
 
     public delegate void OnCellViewClick(CellViewBase cellViewBase);
     public OnCellViewClick onCellViewClick;
+    public ScrollerCtrlBase scrollerCtrl;
 
     [Header("格子模式勾选填写")]
     public bool isGridModel = false;
@@ -28,11 +29,16 @@ public class CellViewBase : EnhancedScrollerCellView
 
     void Awake()
     {
-        lisCellGrid.Add(gridPrefab);
-        for (int i = 0; i < gridCount - 1; i++)
+        if (isGridModel&&scrollerCtrl.cellViewPrefab!=this)
         {
-            GameObject item = Instantiate(gridPrefab.mGameObject, mTransform);
-            lisCellGrid.Add(item.GetComponent<CellGridBase>());
+            lisCellGrid.Add(gridPrefab);
+            gridPrefab.setScrollerCtrl(scrollerCtrl);
+            for (int i = 0; i < gridCount - 1; i++)
+            {
+                CellGridBase item = Instantiate(gridPrefab.mGameObject, mTransform).GetComponent<CellGridBase>();
+                item.setScrollerCtrl(scrollerCtrl);
+                lisCellGrid.Add(item);
+            }
         }
     }
 

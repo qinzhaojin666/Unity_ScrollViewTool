@@ -9,6 +9,7 @@ public class CellGridBase : MonoBehaviour
     public GameObject mGameObject { get { if (__mGameObject == null) __mGameObject = this.gameObject; return __mGameObject; } }
     public Transform mTransform { get { if (__mTransform == null) __mTransform = this.transform; return __mTransform; } }
 
+    [HideInInspector]
     public ScrollerCtrlBase scrollerCtrl;
     [HideInInspector]
     public CellDataBase mData;
@@ -17,6 +18,10 @@ public class CellGridBase : MonoBehaviour
     [HideInInspector]
     public bool active = false;
 
+    public void setScrollerCtrl(ScrollerCtrlBase ctrl)
+    {
+        scrollerCtrl = ctrl;
+    }
 
     public virtual void setData(CellDataBase data, int dataIndex)
     {
