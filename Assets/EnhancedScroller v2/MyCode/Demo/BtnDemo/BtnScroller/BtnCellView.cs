@@ -23,7 +23,7 @@ public class BtnCellView : CellViewBase
     }
 
 
-    public override void RefreshCellView()
+    public override void RefreshCellView(bool isReacquireData)
     {
         Debug.Log("RefreshCellView:"+ mBtnCellData.pathRoot);
         titleText.text = mBtnCellData.pathRoot;

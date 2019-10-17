@@ -605,11 +605,11 @@ namespace EnhancedUI.EnhancedScroller
         /// Note: this will not change the cell sizes, you will need
         /// to call ReloadData for that to work.
         /// </summary>
-        public void RefreshActiveCellViews()
+        public void RefreshActiveCellViews(bool isReacquireData)
         {
             for (var i = 0; i < _activeCellViews.Count; i++)
             {
-                _activeCellViews[i].RefreshCellView();
+                _activeCellViews[i].RefreshCellView(isReacquireData);
             }
         }
 

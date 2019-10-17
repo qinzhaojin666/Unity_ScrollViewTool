@@ -9,6 +9,7 @@ public class CellGridBase : MonoBehaviour
     public GameObject mGameObject { get { if (__mGameObject == null) __mGameObject = this.gameObject; return __mGameObject; } }
     public Transform mTransform { get { if (__mTransform == null) __mTransform = this.transform; return __mTransform; } }
 
+    public ScrollerCtrlBase scrollerCtrl;
     [HideInInspector]
     public CellDataBase mData;
     [HideInInspector]
@@ -26,5 +27,11 @@ public class CellGridBase : MonoBehaviour
         mDataIndex = dataIndex;
     }
 
-    public virtual void RefreshCellView() { }
+    public virtual void RefreshCellView(bool isReacquireData)
+    {
+        if (isReacquireData == true)
+        {
+            setData(scrollerCtrl.GetDataByID(mDataIndex), mDataIndex);
+        }
+    }
 }

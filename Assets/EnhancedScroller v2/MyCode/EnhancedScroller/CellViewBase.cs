@@ -20,10 +20,21 @@ public class CellViewBase : EnhancedScrollerCellView
     public delegate void OnCellViewClick(CellViewBase cellViewBase);
     public OnCellViewClick onCellViewClick;
 
-    [Header("格子模式勾选 拖拽")]
+    [Header("格子模式勾选填写")]
     public bool isGridModel = false;
-    public List<CellGridBase> lisCellGrid = new List<CellGridBase>();
+    public int gridCount = 4;
+    public CellGridBase gridPrefab;
+    private List<CellGridBase> lisCellGrid = new List<CellGridBase>();
 
+    void Awake()
+    {
+        lisCellGrid.Add(gridPrefab);
+        for (int i = 0; i < gridCount - 1; i++)
+        {
+            GameObject item = Instantiate(gridPrefab.mGameObject, mTransform);
+            lisCellGrid.Add(item.GetComponent<CellGridBase>());
+        }
+    }
 
     public CellViewBase setIdentifier(string type)
     {
@@ -34,26 +45,25 @@ public class CellViewBase : EnhancedScrollerCellView
     public virtual void setData(CellDataBase dataBase)
     {
         this.mDataBase = dataBase;
-        //this.RefreshCellView();
     }
 
     public virtual void setData(ref List<CellDataBase> lisData, int startingIndex)
     {
-        //重写的示例 参照此处
+        //继承的子类中 重写该方法参照此处代码
         for (int i = 0; i < lisCellGrid.Count; i++)
         {
             lisCellGrid[i].setData(startingIndex + i < lisData.Count ? lisData[startingIndex + i] : null, startingIndex + i);
         }
     }
 
-    public override void RefreshCellView()
+    public override void RefreshCellView(bool isReacquireData = false)
     {
         if (isGridModel)
         {
             for (int i = 0; i < lisCellGrid.Count; i++)
             {
                 if (lisCellGrid[i].active)
-                    lisCellGrid[i].RefreshCellView();
+                    lisCellGrid[i].RefreshCellView(isReacquireData);
             }
         }
     }

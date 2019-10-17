@@ -16,9 +16,10 @@ public class EveryImg : CellGridBase
     public Texture2D defaultTexture;
     private NetImageRequestObj requestObj;
 
-    public override void RefreshCellView()
+    public override void RefreshCellView(bool isReacquireData)
     {
         //Debug.LogError("--------------------------------------");
+        base.RefreshCellView(isReacquireData);
         if (requestObj!=null)
         {
             requestObj.Abort();

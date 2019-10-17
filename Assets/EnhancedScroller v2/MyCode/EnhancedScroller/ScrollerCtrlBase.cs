@@ -15,8 +15,10 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     public CellViewBase cellViewPrefab;
 
     private float _cellSize = -1;
-    public float cellSize {
-        get {
+    public float cellSize
+    {
+        get
+        {
             if (_cellSize == -1)
             {
                 RectTransform rect = cellViewPrefab.GetComponent<RectTransform>();
@@ -30,8 +32,10 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     /// <summary>
     /// 一页包含几个格子 用于翻页
     /// </summary>
-    public int pageCount {
-        get {
+    public int pageCount
+    {
+        get
+        {
             if (_pageCount == -1)
             {
                 _pageCount = scroller.scrollDirection == EnhancedScroller.ScrollDirectionEnum.Vertical ? (int)scroller.ScrollRectSize / (int)cellSize : (int)scroller.ScrollRectSize / (int)cellSize;
@@ -46,11 +50,13 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     /// 如果是格子模式 该值有用
     /// </summary>
     private int _numberOfCellsPerRow = -1;
-    private int numberOfCellsPerRow {
-        get {
+    private int numberOfCellsPerRow
+    {
+        get
+        {
             if (_numberOfCellsPerRow == -1)
             {
-                _numberOfCellsPerRow = cellViewPrefab.lisCellGrid.Count;
+                _numberOfCellsPerRow = cellViewPrefab.gridCount;
             }
             return _numberOfCellsPerRow;
         }
@@ -59,15 +65,26 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     [Space(20)]
     public List<CellDataBase> lisData;
 
+
     #region 数据相关操作
     public List<CellDataBase> RemoveAtID(int id)
     {
-        if (id <= lisData.Count - 1)
+        if (id >= 0 && id <= lisData.Count - 1)
         {
             lisData.RemoveAt(id);
         }
 
         return lisData;
+    }
+
+    public CellDataBase GetDataByID(int id)
+    {
+        if (id >= 0 && id <= lisData.Count - 1)
+        {
+            return lisData[id];
+        }
+
+        return null;
     }
     #endregion
 
@@ -113,9 +130,9 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
         return this;
     }
 
-    public virtual ScrollerCtrlBase RefershData()
+    public virtual ScrollerCtrlBase RefershData(bool isReacquireData)
     {
-        scroller.RefreshActiveCellViews();
+        scroller.RefreshActiveCellViews(isReacquireData);
         return this;
     }
 
@@ -159,7 +176,7 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
         CellViewBase view = cellView as CellViewBase;
 
         if (cellView.active)
-            view.RefreshCellView();
+            view.RefreshCellView(false);
     }
 
     /// <summary>
