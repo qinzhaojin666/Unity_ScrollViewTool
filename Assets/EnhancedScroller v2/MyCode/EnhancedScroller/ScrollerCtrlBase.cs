@@ -121,18 +121,18 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
     /// <summary>
     /// Scroller的启动方法  注意：调用之前先setDataList
     /// </summary>
-    public virtual ScrollerCtrlBase ReloadData()
+    public virtual ScrollerCtrlBase ReloadData(float scrollPositionFactor = 0)
     {
         if (isInit == false)
             InitCtrl();
 
-        scroller.ReloadData();
+        scroller.ReloadData(scrollPositionFactor);
         return this;
     }
 
-    public virtual ScrollerCtrlBase RefershData(bool isReacquireData)
+    public virtual ScrollerCtrlBase RefershData()
     {
-        scroller.RefreshActiveCellViews(isReacquireData);
+        scroller.RefreshActiveCellViews();
         return this;
     }
 
@@ -176,7 +176,7 @@ public class ScrollerCtrlBase : MonoBehaviour, IEnhancedScrollerDelegate
         CellViewBase view = cellView as CellViewBase;
 
         if (cellView.active)
-            view.RefreshCellView(false);
+            view.RefreshCellView();
     }
 
     /// <summary>

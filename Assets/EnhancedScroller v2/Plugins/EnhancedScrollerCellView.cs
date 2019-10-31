@@ -39,9 +39,8 @@ namespace EnhancedUI.EnhancedScroller
         /// <summary>
         /// This method is called by the scroller when the RefreshActiveCellViews is called on the scroller
         /// You can override it to update your cell's view UID
-        /// isReacquireData 是否根据index重新从scrollerCtrl获取数据
         /// </summary>
-        public virtual void RefreshCellView(bool isReacquireData)
+        public virtual void RefreshCellView()
         {
 
         }

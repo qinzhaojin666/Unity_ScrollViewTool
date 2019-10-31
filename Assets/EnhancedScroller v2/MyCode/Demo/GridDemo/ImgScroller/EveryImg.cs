@@ -16,10 +16,11 @@ public class EveryImg : CellGridBase
     public Texture2D defaultTexture;
     private NetImageRequestObj requestObj;
 
-    public override void RefreshCellView(bool isReacquireData)
+    public override void RefreshCellView()
     {
-        //Debug.LogError("--------------------------------------");
-        base.RefreshCellView(isReacquireData);
+        if (active == false)
+            return;
+
         if (requestObj!=null)
         {
             requestObj.Abort();
@@ -32,7 +33,11 @@ public class EveryImg : CellGridBase
         requestObj = NetImageMgr.getInstance().StartGetOne(path, titleImage, 1);
     }
 
-
+    public void onDeleteBtnClick()
+    {
+        scrollerCtrl.RemoveAtID(mDataIndex);
+        scrollerCtrl.ReloadData(scrollerCtrl.scroller.NormalizedScrollPosition);
+    }
 
 }
 

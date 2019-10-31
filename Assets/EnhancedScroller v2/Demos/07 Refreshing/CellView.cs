@@ -40,10 +40,10 @@ namespace EnhancedScrollerDemos.RefreshDemo
             _data = data;
 
             // update the cell's UI
-            RefreshCellView(false);
+            RefreshCellView();
         }
 
-        public override void RefreshCellView(bool isReacquireData)
+        public override void RefreshCellView()
         {
             // update the UI text with the cell data
             someTextText.text = _data.someText;

@@ -62,14 +62,14 @@ public class CellViewBase : EnhancedScrollerCellView
         }
     }
 
-    public override void RefreshCellView(bool isReacquireData = false)
+    public override void RefreshCellView()
     {
         if (isGridModel)
         {
             for (int i = 0; i < lisCellGrid.Count; i++)
             {
                 if (lisCellGrid[i].active)
-                    lisCellGrid[i].RefreshCellView(isReacquireData);
+                    lisCellGrid[i].RefreshCellView();
             }
         }
     }

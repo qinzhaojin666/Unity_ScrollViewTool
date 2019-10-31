@@ -11,11 +11,11 @@ public class CellGridBase : MonoBehaviour
 
     [HideInInspector]
     public ScrollerCtrlBase scrollerCtrl;
-    [HideInInspector]
+
     public CellDataBase mData;
-    [HideInInspector]
+
     public int mDataIndex;
-    [HideInInspector]
+
     public bool active = false;
 
     public void setScrollerCtrl(ScrollerCtrlBase ctrl)
@@ -32,11 +32,8 @@ public class CellGridBase : MonoBehaviour
         mDataIndex = dataIndex;
     }
 
-    public virtual void RefreshCellView(bool isReacquireData)
+    public virtual void RefreshCellView()
     {
-        if (isReacquireData == true)
-        {
-            setData(scrollerCtrl.GetDataByID(mDataIndex), mDataIndex);
-        }
+ 
     }
 }

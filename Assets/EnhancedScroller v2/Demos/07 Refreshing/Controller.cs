@@ -66,7 +66,7 @@ namespace EnhancedScrollerDemos.RefreshDemo
 
                 // refresh the active cells
 
-                scroller.RefreshActiveCellViews(false);
+                scroller.RefreshActiveCellViews();
             }
         }
 

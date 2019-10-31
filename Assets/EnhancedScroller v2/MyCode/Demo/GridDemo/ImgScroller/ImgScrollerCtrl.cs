@@ -61,6 +61,7 @@ public class ImgScrollerCtrl : ScrollerCtrlBase
         Invoke("SetImgDataList", 1);
     }
 
+
     public void SetImgDataList()
     {
         List<CellDataBase> lisImgCellData = new List<CellDataBase>();
@@ -75,6 +76,6 @@ public class ImgScrollerCtrl : ScrollerCtrlBase
 
     public void OnRefershBtnClick()
     {
-        RefershData(true);
+        RefershData();
     }
 }
