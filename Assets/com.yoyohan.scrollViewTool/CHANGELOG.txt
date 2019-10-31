@@ -1,0 +1,25 @@
+EnhancedScroller
+http://u3d.as/fXk
+
+Version 0.0.1
+2019.10.31
+Requires Unity 2017.4.1f1+
+
+    删除 完成
+	刷新 完成
+	格子 完成
+	格子实例化小格子 完成
+
+Version 0.0.0
+2019.10.31
+Requires Unity 2017.4.1f1+
+
+    Init
+
+
+
+
+
+
+
+

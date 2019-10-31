@@ -1,0 +1,16 @@
+{
+  "name": "com.yoyohan.scrollviewtool",
+  "displayName": "ScrollViewTool",
+  "version": "0.0.1",
+  "description": "改编的增强型Scroller",
+  "keywords": [
+    "scrollViewTool"
+  ],
+  "category": "MOBA",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoyohan1/Unity_ScrollViewTool.git",
+    "revision": "42654af0"
+  }
+}
