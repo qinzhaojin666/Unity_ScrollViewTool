@@ -8,7 +8,7 @@
   ],
   "category": "MOBA",
   "dependencies": {
-    "com.yoyohan.netimagemgr": "https://github.com/yoyohan1/Unity_NetImageMgr.git#upm1.0.0"
+    "com.yoyohan.netimagemgr": "1.0.0"
   },
   "repository": {
     "type": "git",
