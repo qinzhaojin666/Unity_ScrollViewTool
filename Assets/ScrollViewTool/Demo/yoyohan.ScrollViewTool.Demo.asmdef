@@ -1,0 +1,15 @@
+{
+    "name": "yoyohan.ScrollViewTool.Demo",
+    "references": [
+        "yoyohan.ScrollViewTool",
+        "yoyohan.ScrollViewTool.NetImageMgr"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

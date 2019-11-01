@@ -1,14 +1,14 @@
-EnhancedScroller
+锘縀nhancedScroller
 http://u3d.as/fXk
 
 Version 0.0.1
 2019.10.31
 Requires Unity 2017.4.1f1+
 
-    删除 完成
-	刷新 完成
-	格子 完成
-	格子实例化小格子 完成
+    鍒犻櫎 瀹屾垚
+	鍒锋柊 瀹屾垚
+	鏍煎瓙 瀹屾垚
+	鏍煎瓙瀹炰緥鍖栧皬鏍煎瓙 瀹屾垚
 
 Version 0.0.0
 2019.10.31
