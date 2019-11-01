@@ -2,7 +2,7 @@
     "name": "yoyohan.ScrollViewTool.Demo",
     "references": [
         "yoyohan.ScrollViewTool",
-        "yoyohan.ScrollViewTool.NetImageMgr"
+        "yoyohan.NetImageMgr"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
