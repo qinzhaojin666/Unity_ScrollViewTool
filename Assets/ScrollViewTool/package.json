@@ -1,14 +1,14 @@
 {
   "name": "com.yoyohan.scrollviewtool",
   "displayName": "ScrollViewTool",
-  "version": "0.0.1",
-  "description": "改编的增强型Scroller",
+  "version": "1.0.0",
+  "description": "改编的EnhancedScroller插件",
   "keywords": [
     "scrollViewTool"
   ],
   "category": "MOBA",
   "dependencies": {
-    "com.yoyohan.netimagemgr": "https://github.com/yoyohan1/Unity_NetImageMgr.git#upm"
+    "com.yoyohan.netimagemgr": "https://github.com/yoyohan1/Unity_NetImageMgr.git#upm1.0.0"
   },
   "repository": {
     "type": "git",
