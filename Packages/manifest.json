@@ -7,6 +7,7 @@
     "com.unity.package-manager-ui": "2.0.7",
     "com.unity.purchasing": "2.0.3",
     "com.unity.textmeshpro": "1.4.1",
+    "com.yoyohan.netimagemgr": "https://github.com/yoyohan1/Unity_NetImageMgr.git#1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.assetbundle": "1.0.0",
@@ -42,6 +43,10 @@
     "com.coffee.upm-git-extension": {
       "hash": "5dce776a72dd18cc57aac32fe45498a2f05456fd",
       "revision": "1.0.2"
+    },
+    "com.yoyohan.netimagemgr": {
+      "hash": "b97dbe52cb1bad913af7b1431622aad7ab92a03f",
+      "revision": "1.0.0"
     }
   }
 }

@@ -7,9 +7,7 @@
     "scrollViewTool"
   ],
   "category": "MOBA",
-  "dependencies": {
-    "com.yoyohan.netimagemgr": "https://github.com/yoyohan1/Unity_NetImageMgr.git#1.0.0"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/yoyohan1/Unity_ScrollViewTool.git",
